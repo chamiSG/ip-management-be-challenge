@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Models\Audit;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 // use Validator;
@@ -50,6 +51,12 @@ class RegisterController extends BaseController
             $user = Auth::user();
             $success['token'] =  $user->createToken('token')->plainTextToken;
             $success['name'] =  $user->name;
+
+            $log['type'] = 'Login';
+            $log['content'] = $user->firstname . ' ' . $user->lastname . ' was logged in.';
+            $log['user_id'] = $user->id;
+            $log['user_agent'] = $user->firstname . ' ' . $user->lastname;
+            Audit::create($log);
 
             return $this->sendResponse($success, 'User login successfully.');
         } else {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AuditController;
 use App\Http\Controllers\API\IpAddressManageController;
 use App\Http\Controllers\API\RegisterController;
 use Illuminate\Http\Request;
@@ -22,4 +23,5 @@ Route::controller(RegisterController::class)->group(function(){
         
 Route::middleware('auth:sanctum')->group( function () {
     Route::resource('ip-address', IpAddressManageController::class);
+    Route::resource('audit', AuditController::class);
 });
